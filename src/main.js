@@ -1,4 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import SmartTable from 'vuejs-smart-table'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.use(SmartTable)
+app.mount('#app')
