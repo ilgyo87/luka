@@ -2,47 +2,27 @@
   <img alt="luka picture" src="./assets/luka.jpeg" />
   <HelloWorld msg="Luka" />
 
+  <div>
+    <div id="points">
+      <legend>stat tracker</legend>
+      <span v-text="totalPoints"></span>
+      Points
+      <input type="range" min="0" max="60" v-model="rangePoints" />
+    </div>
 
-<div>
-  <div id="points">
-  <legend>stat tracker</legend>
-  <span v-text="totalPoints"></span>
-  Points
-  <input type="range" list="tickmarks"  v-model="rangePoints"/>
-  <datalist id="tickmarks">
-    <option value="0" ></option>
-    <option value="10"></option>
-    <option value="20"></option>
-    <option value="30"></option>
-    <option value="40"></option>
-    <option value="50"></option>
-    <option value="60"></option>
-    <option value="70"></option>
-    <option value="80"></option>
-    <option value="90"></option>
-    <option value="100"></option>
-  </datalist>
+    <span v-text="totalRebounds"></span>
+    Rebounds
+    <input type="range" min="0" max="20" v-model="rangeRebounds" />
+
+    <span v-text="totalAssists"></span>
+    Assists
+    <input type="range" min="0" max="20" v-model="rangeAssists" />
+
+    <span v-text="totalSteals"></span>
+    Steals
+    <input type="range" min="0" max="10" v-model="rangeSteals" />
   </div>
-
-  <span v-text="totalRebounds"></span>
-  Rebounds
-  <input type="range" min:0 max: 10 step:1 list="tickmarks"  v-model="rangeRebounds"/>
-  <!-- <datalist id="tickmarks">
-    <option value="0" ></option>
-    <option value="1"></option>
-    <option value="2"></option>
-    <option value="3"></option>
-    <option value="4"></option>
-    <option value="5"></option>
-    <option value="6"></option>
-    <option value="7"></option>
-    <option value="8"></option>
-    <option value="9"></option>
-    <option value="10"></option>
-  </datalist> -->
-
-</div>
-
+  {{ combined }}
   <table id="firstTable">
     <thead>
       <tr>
@@ -105,22 +85,26 @@ export default {
       rangeRebounds: 0,
       rangeAssists: 0,
       rangeSteals: 0,
-      stats2019,
-      stats2020,
+      stats2019: stats2019,
+      stats2020: stats2020,
+      season2019String: JSON.stringify(stats2019),
+      season2020String: JSON.stringify(stats2020),
+      // season2019: JSON.parse(this.stats2019),
+      // season2020: JSON.parse(this.stats2020),
+      // allSeasons: Object.assign(this.season2019, this.season2020),
+      // allSeasons: [this.season2019, this.season2020],
+      // allSeasons: this.season2019String.concat(this.season2020String),
       filter: "",
-      pts: [
-        { value: 5, name: "5" },
-        { value: 10, name: "10" },
-        { value: 15, name: "15" },
-        { value: 20, name: "20" },
-        { value: 25, name: "25" },
-        { value: 30, name: "30" },
-        { value: 35, name: "35" },
-        { value: 40, name: "40" },
-        { value: 45, name: "45" },
-        { value: 50, name: "50" },
-      ],
-    };
+      one: [{
+        "Rk": 1,
+        "G": 1,
+      }],
+      two: [{
+        "Rk": 2,
+        "G": 2,
+      }],
+  
+  }
   },
   components: {
     HelloWorld,
@@ -129,16 +113,25 @@ export default {
     
   },
   computed:{
-    totalPoints(){
-      return this.rangePoints
-    },
     totalRebounds(){
       return this.rangeRebounds
     },
+    totalAssists(){
+      return this.rangeAssists
+    },
+    totalSteals(){
+      return this.rangeSteals
+    },
+    totalPoints(){
+      return this.rangePoints
+    },
     pointsFiltered() {
       return this.stats2019.filter((stat)=>{
-        return stat.PTS >= this.rangePoints
-      })
+        return stat.PTS >= this.rangePoints &&
+         stat.TRB >= this.rangeRebounds &&
+         stat.AST >= this.rangeAssists &&
+         stat.STL >= this.rangeSteals
+      }) 
     },
   }
 };
@@ -170,6 +163,5 @@ img {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
-
 }
 </style>
