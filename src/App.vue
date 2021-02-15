@@ -22,7 +22,6 @@
     Steals
     <input type="range" min="0" max="10" v-model="rangeSteals" />
   </div>
-  {{ combined }}
   <table id="firstTable">
     <thead>
       <tr>
@@ -48,7 +47,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="stat in pointsFiltered" :key="stat.Rk">
+      <tr v-for="stat in pointsFiltered" :key="stat.Date">
         <td>{{ stat.PTS }}</td>
         <td>{{ stat.TRB }}</td>
         <td>{{ stat.AST }}</td>
@@ -95,45 +94,43 @@ export default {
       // allSeasons: [this.season2019, this.season2020],
       // allSeasons: this.season2019String.concat(this.season2020String),
       filter: "",
-      one: [{
-        "Rk": 1,
-        "G": 1,
-      }],
-      two: [{
-        "Rk": 2,
-        "G": 2,
-      }],
-  
-  }
+      one: {"rk": 1, "gm": 3}
+    };
   },
   components: {
     HelloWorld,
   },
-  methods: {
-    
-  },
-  computed:{
-    totalRebounds(){
-      return this.rangeRebounds
+  methods: {},
+  watch: {},
+  computed: {
+    combined() {
+      // return Object.assign({}, this.season2019String, this.season2020String)
+      // return this.season2019String.concat(this.season2020String);
+       return this.stats2019.concat(this.stats2020);
+      //  return [{...this.stats2019,...this.stats2020}]
     },
-    totalAssists(){
-      return this.rangeAssists
+    totalRebounds() {
+      return this.rangeRebounds;
     },
-    totalSteals(){
-      return this.rangeSteals
+    totalAssists() {
+      return this.rangeAssists;
     },
-    totalPoints(){
-      return this.rangePoints
+    totalSteals() {
+      return this.rangeSteals;
+    },
+    totalPoints() {
+      return this.rangePoints;
     },
     pointsFiltered() {
-      return this.stats2019.filter((stat)=>{
-        return stat.PTS >= this.rangePoints &&
-         stat.TRB >= this.rangeRebounds &&
-         stat.AST >= this.rangeAssists &&
-         stat.STL >= this.rangeSteals
-      }) 
+      return this.combined.filter((stat) => {
+        return stat.PTS >= this.rangePoints;
+        // &&
+        //  stat.TRB >= this.rangeRebounds &&
+        //  stat.AST >= this.rangeAssists &&
+        //  stat.STL >= this.rangeSteals
+      });
     },
-  }
+  },
 };
 </script>
 
